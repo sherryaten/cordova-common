@@ -18,7 +18,7 @@
 */
 
 const path = require('node:path');
-const fs = require('node:fs');
+const fs = require('fs-extra');
 const { parseElementtreeSync } = require('../util/xml-helpers');
 const CordovaError = require('../CordovaError');
 

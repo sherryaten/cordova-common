@@ -24,6 +24,7 @@
     "elementtree": "^0.1.7",
     "endent": "^2.1.0",
     "fast-glob": "^3.3.3",
+    "fs-extra": "^11.3.0",
     "lodash.zip": "^4.2.0",
     "plist": "^3.1.0",
     "q": "^1.5.1",

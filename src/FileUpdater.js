@@ -19,7 +19,7 @@
 
 'use strict';
 
-const fs = require('node:fs');
+const fs = require('fs-extra');
 const path = require('node:path');
 const fastGlob = require('fast-glob');
 
@@ -103,7 +103,7 @@ function updatePathWithStats (sourcePath, sourceStats, targetPath, targetStats, 
 
         const type = targetStats ? 'updated' : 'new';
         log(`copy  ${sourcePath} ${targetPath} (${type} file)`);
-        fs.cpSync(path.join(rootDir, sourcePath), targetFullPath, { recursive: true });
+        fs.copySync(path.join(rootDir, sourcePath), targetFullPath, { recursive: true });
         return true;
     }
 

@@ -17,7 +17,7 @@
     under the License.
 */
 
-const fs = require('node:fs');
+const fs = require('fs-extra');
 const path = require('node:path');
 const et = require('elementtree');
 const tmp = require('tmp');
@@ -74,7 +74,7 @@ function get_munge_change () {
 }
 
 function install_plugin (pluginPath) {
-    fs.cpSync(pluginPath, path.join(plugins_dir, path.basename(pluginPath)), { recursive: true });
+    fs.copySync(pluginPath, path.join(plugins_dir, path.basename(pluginPath)), { recursive: true });
 }
 
 describe('config-changes module', function () {
@@ -154,7 +154,7 @@ describe('config-changes module', function () {
     describe('generate_plugin_config_munge method', function () {
         describe('for android projects', function () {
             beforeEach(function () {
-                fs.cpSync(android_two_project, temp, { recursive: true });
+                fs.copySync(android_two_project, temp, { recursive: true });
             });
 
             it('Test 007 : should return a flat config hierarchy for simple, one-off config changes', function () {
@@ -229,7 +229,7 @@ describe('config-changes module', function () {
         });
 
         it('Test 014 : should generate config munges for queued plugins', function () {
-            fs.cpSync(android_two_project, temp, { recursive: true });
+            fs.copySync(android_two_project, temp, { recursive: true });
             const platformJson = PlatformJson.load(plugins_dir, 'android');
             platformJson.root.prepare_queue.installed = [{ plugin: 'org.test.plugins.dummyplugin', vars: {} }];
             const munger = new configChanges.PlatformMunger('android', temp, platformJson, pluginInfoProvider);
@@ -241,7 +241,7 @@ describe('config-changes module', function () {
         describe(': installation', function () {
             describe('of xml config files', function () {
                 beforeEach(function () {
-                    fs.cpSync(android_two_project, temp, { recursive: true });
+                    fs.copySync(android_two_project, temp, { recursive: true });
                 });
 
                 it('Test 015 : should call graftXML for every new config munge it introduces (every leaf in config munge that does not exist)', function () {
@@ -461,7 +461,7 @@ describe('config-changes module', function () {
 
             describe('of plist config files', function () {
                 it('Test 023 : should write empty string nodes with no whitespace', function () {
-                    fs.cpSync(ios_config_xml, temp, { recursive: true });
+                    fs.copySync(ios_config_xml, temp, { recursive: true });
                     install_plugin(varplugin);
 
                     const platformJson = PlatformJson.load(plugins_dir, 'ios');
@@ -471,7 +471,7 @@ describe('config-changes module', function () {
                 });
 
                 it('Test 024 : should merge dictionaries and arrays, removing duplicates', function () {
-                    fs.cpSync(ios_config_xml, temp, { recursive: true });
+                    fs.copySync(ios_config_xml, temp, { recursive: true });
                     install_plugin(plistplugin);
 
                     const platformJson = PlatformJson.load(plugins_dir, 'ios');
@@ -485,7 +485,7 @@ describe('config-changes module', function () {
 
             describe('of binary plist config files', function () {
                 it('should merge dictionaries and arrays, removing duplicates', function () {
-                    fs.cpSync(ios_config_xml, temp, { recursive: true });
+                    fs.copySync(ios_config_xml, temp, { recursive: true });
                     install_plugin(bplistplugin);
 
                     const platformJson = PlatformJson.load(plugins_dir, 'ios');
@@ -499,7 +499,7 @@ describe('config-changes module', function () {
             });
 
             it('Test 025 : should resolve wildcard config-file targets to the project, if applicable', function () {
-                fs.cpSync(ios_config_xml, temp, { recursive: true });
+                fs.copySync(ios_config_xml, temp, { recursive: true });
                 install_plugin(cbplugin);
 
                 const platformJson = PlatformJson.load(plugins_dir, 'ios');
@@ -512,7 +512,7 @@ describe('config-changes module', function () {
             });
 
             it('Test 026 : should move successfully installed plugins from queue to installed plugins section, and include/retain vars if applicable', function () {
-                fs.cpSync(android_two_project, temp, { recursive: true });
+                fs.copySync(android_two_project, temp, { recursive: true });
                 install_plugin(varplugin);
 
                 const platformJson = PlatformJson.load(plugins_dir, 'android');
@@ -529,7 +529,7 @@ describe('config-changes module', function () {
 
         describe(': uninstallation', function () {
             it('Test 027 : should call pruneXML for every config munge it completely removes from the app (every leaf that is decremented to 0)', function () {
-                fs.cpSync(android_two_project, temp, { recursive: true });
+                fs.copySync(android_two_project, temp, { recursive: true });
 
                 // Run through an "install"
                 const platformJson = PlatformJson.load(plugins_dir, 'android');
@@ -550,7 +550,7 @@ describe('config-changes module', function () {
             });
 
             it('Test 028 : should generate a config munge that interpolates variables into config changes, if applicable', function () {
-                fs.cpSync(android_two_project, temp, { recursive: true });
+                fs.copySync(android_two_project, temp, { recursive: true });
                 install_plugin(varplugin);
 
                 // Run through an "install"
@@ -572,7 +572,7 @@ describe('config-changes module', function () {
             });
 
             it('Test 029 : should not call pruneXML for a config munge that another plugin depends on', function () {
-                fs.cpSync(android_two_no_perms_project, temp, { recursive: true });
+                fs.copySync(android_two_no_perms_project, temp, { recursive: true });
                 install_plugin(childrenplugin);
                 install_plugin(shareddepsplugin);
 
@@ -596,7 +596,7 @@ describe('config-changes module', function () {
             });
 
             it('Test 030 : should not call pruneXML for a config munge targeting a config file that does not exist', function () {
-                fs.cpSync(android_two_project, temp, { recursive: true });
+                fs.copySync(android_two_project, temp, { recursive: true });
                 // install a plugin
                 const platformJson = PlatformJson.load(plugins_dir, 'android');
                 platformJson.addInstalledPluginToPrepareQueue('org.test.plugins.dummyplugin', {});
@@ -613,7 +613,7 @@ describe('config-changes module', function () {
             });
 
             it('Test 031 : should remove uninstalled plugins from installed plugins list', function () {
-                fs.cpSync(android_two_project, temp, { recursive: true });
+                fs.copySync(android_two_project, temp, { recursive: true });
                 install_plugin(varplugin);
 
                 // install the var plugin
@@ -631,7 +631,7 @@ describe('config-changes module', function () {
             });
 
             it('Test 032 : should call pruneXMLRestore for every config munge with mode \'merge\' or \'overwrite\' it removes from the app', function () {
-                fs.cpSync(android_two_project, temp, { recursive: true });
+                fs.copySync(android_two_project, temp, { recursive: true });
                 install_plugin(editconfigplugin);
 
                 // Run through an "install"

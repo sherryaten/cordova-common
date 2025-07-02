@@ -18,7 +18,7 @@
 */
 
 const crossSpawn = require('cross-spawn');
-const fs = require('node:fs');
+const fs = require('fs-extra');
 const Q = require('q');
 const events = require('./events');
 const iswin32 = process.platform === 'win32';

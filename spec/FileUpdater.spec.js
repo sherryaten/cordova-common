@@ -17,7 +17,7 @@
     under the License.
 */
 
-const { Stats } = require('node:fs');
+const { Stats } = require('fs-extra');
 const path = require('node:path');
 const rewire = require('rewire');
 
@@ -126,7 +126,7 @@ const mockFs = {
         this.mkdirPaths.push(path);
     },
 
-    cpSync: function (sourcePath, targetPath, opts) {
+    copySync: function (sourcePath, targetPath, opts) {
         this.cpPaths.push([sourcePath, targetPath]);
     },
 

@@ -20,7 +20,7 @@
 const et = require('elementtree');
 const { parseElementtreeSync } = require('../util/xml-helpers');
 const CordovaError = require('../CordovaError');
-const fs = require('node:fs');
+const fs = require('fs-extra');
 const events = require('../events');
 
 const CDV_XMLNS_URI = 'http://cordova.apache.org/ns/1.0';

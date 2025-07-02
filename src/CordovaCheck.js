@@ -17,7 +17,7 @@
     under the License.
 */
 
-const fs = require('node:fs');
+const fs = require('fs-extra');
 const path = require('node:path');
 
 function isRootDir (dir) {

@@ -17,7 +17,7 @@
     under the License.
 */
 
-const fs = require('node:fs');
+const fs = require('fs-extra');
 const rewire = require('rewire');
 const PlatformJson = rewire('../src/PlatformJson');
 const ModuleMetadata = PlatformJson.__get__('ModuleMetadata');

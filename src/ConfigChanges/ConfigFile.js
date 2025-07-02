@@ -14,7 +14,7 @@
  *
 */
 
-const fs = require('node:fs');
+const fs = require('fs-extra');
 const path = require('node:path');
 const readChunk = require('read-chunk');
 

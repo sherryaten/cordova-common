@@ -23,7 +23,7 @@
  * contains XML utility functions, some of which are specific to elementtree
  */
 
-const fs = require('node:fs');
+const fs = require('fs-extra');
 const path = require('node:path');
 const zip = require('lodash.zip');
 const et = require('elementtree');
